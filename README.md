@@ -1,1 +1,1 @@
-# mantis-with-python-test
+# Repository for Python training (part 2)
