@@ -5,5 +5,9 @@
   "webadmin": {
   "username": "administrator",
   "password": "root"
+  },
+  "testuser": {
+  "username": "testuser",
+  "password": "12345"
   }
 }
