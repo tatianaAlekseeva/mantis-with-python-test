@@ -1,9 +1,6 @@
 import json
-import re
-
 from suds.client import Client
 from suds import WebFault
-import xml.etree.ElementTree as ET
 
 from model.project import Project
 
