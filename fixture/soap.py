@@ -13,11 +13,7 @@ class SoapHelper:
         self.app = app
 
     def get_project_list(self):
-        with open('target.json', 'r') as file:
-            data = json.load(file)
-            username = data['testuser']['username']
-            password = data['testuser']['password']
-        client = Client("http://localhost/mantisbt-2.26.3/api/soap/mantisconnect.wsdl")
+        client, password, username = self.get_soap_client()
         try:
             projects_data = client.service.mc_projects_get_user_accessible(username, password)
             projects = []
@@ -30,14 +26,19 @@ class SoapHelper:
             print(f"An error occurred while accessing the SOAP service: {e}")
 
     def get_project_id_by_name(self, project_name):
-        with open('target.json', 'r') as file:
-            data = json.load(file)
-            username = data['testuser']['username']
-            password = data['testuser']['password']
-        client = Client("http://localhost/mantisbt-2.26.3/api/soap/mantisconnect.wsdl")
+        client, password, username = self.get_soap_client()
         try:
             project_id = client.service.mc_project_get_id_from_name(username, password, project_name)
             return project_id
         except WebFault as e:
             print(f"An error occurred while accessing the SOAP service: {e}")
 
+    def get_soap_client(self):
+        with open('target.json', 'r') as file:
+            data = json.load(file)
+            base_url = data['web']['baseUrl']
+            username = data['testuser']['username']
+            password = data['testuser']['password']
+        resource_path = "api/soap/mantisconnect.wsdl"
+        client = Client(f"{base_url}{resource_path}")
+        return client, password, username
